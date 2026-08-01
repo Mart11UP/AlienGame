@@ -56,7 +56,7 @@ namespace Alien.Inventory
             while (remainingQuantity > 0)
             {
                 int amountToAdd = Mathf.Min(remainingQuantity, itemData.MaxStackSize);
-                entries.Add(new InventoryEntry(itemData, amountToAdd));
+                entries.Add(new InventoryEntry(itemData, amountToAdd, entries.Count));
                 remainingQuantity -= amountToAdd;
             }
 
@@ -85,6 +85,8 @@ namespace Alien.Inventory
 
                 if (entry.Quantity <= 0) entries.RemoveAt(i);
             }
+
+            UpdateEntryIndexes();
 
             InventoryChanged?.Invoke();
             return true;
@@ -198,7 +200,13 @@ namespace Alien.Inventory
             return quantity;
         }
 
-        private bool ValidateRequest( ItemData itemData, int quantity)
+        private void UpdateEntryIndexes()
+        {
+            for (int i = 0; i < entries.Count; i++)
+                entries[i].index = i;
+        }
+
+        private bool ValidateRequest(ItemData itemData, int quantity)
         {
             if (itemData == null)
             {
@@ -271,6 +279,8 @@ namespace Alien.Inventory
                     entries.RemoveAt(i);
                 }
             }
+
+            UpdateEntryIndexes();
         }
     }
 }

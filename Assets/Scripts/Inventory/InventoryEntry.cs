@@ -9,7 +9,7 @@ namespace Alien.Inventory
     {
         [SerializeField] private ItemData itemData;
         [SerializeField] private int quantity;
-
+        public int index;
         public ItemData ItemData => itemData;
 
         public int Quantity
@@ -18,10 +18,11 @@ namespace Alien.Inventory
             set => quantity = Mathf.Max(0, value);
         }
 
-        public InventoryEntry(ItemData itemData, int quantity)
+        public InventoryEntry(ItemData itemData, int quantity, int index)
         {
             this.itemData = itemData;
             this.quantity = Mathf.Max(1, quantity);
+            this.index = index;
         }
     }
 }
