@@ -23,16 +23,11 @@ namespace Alien.UI
         InventoryItemUI currentSelectedItem;
         List<InventoryItemUI> currentItemsUI = new();
 
-
-        void Start()
+        private void Awake()
         {
             itemUIReference.gameObject.SetActive(false);
             SetupItemsUI();
             SelectItem(currentItemsUI.Count > 0 ? currentItemsUI[0] : null);
-        }
-
-        private void Awake()
-        {
             InventoryManager.Instance.OnInventoryChanged += SetupItemsUI;
 
             useButton.onClick.AddListener(RequestUseSelectedItem);

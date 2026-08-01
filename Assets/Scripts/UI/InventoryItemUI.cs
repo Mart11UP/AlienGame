@@ -14,14 +14,10 @@ namespace Alien.UI
         InventoryUIController inventoryUIController;
         Button button;
 
-        private void Awake()
-        {
-            button = GetComponent<Button>();
-        }
-
         public void Setup(InventoryEntry inventoryEntry, InventoryUIController controller)
         {
-            this.InventoryEntry = inventoryEntry;
+            button = GetComponent<Button>();
+            InventoryEntry = inventoryEntry;
             inventoryUIController = controller;
             highlight.SetActive(false);
 
