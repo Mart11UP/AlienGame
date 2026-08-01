@@ -2,6 +2,7 @@ using NaughtyAttributes;
 using Unity.Cinemachine;
 using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 namespace Alien.Player
@@ -41,6 +42,10 @@ namespace Alien.Player
         [SerializeField] string moveActionName = "Move";
         [SerializeField] string jumpActionName = "Jump";
 
+        public float CurrentVelocity => new Vector3(playerRigidbody.linearVelocity.x, 0, playerRigidbody.linearVelocity.z).magnitude;
+        public bool IsGrounded => coyoteTimer > 0;
+        public UnityEvent OnJump;
+
         InputAction moveAction;
         InputAction jumpAction;
 
@@ -78,6 +83,7 @@ namespace Alien.Player
         private void Update()
         {
             movementInput = moveAction?.ReadValue<Vector2>() ?? Vector2.zero;
+            print(coyoteTimer);
         }
 
         private void FixedUpdate()
@@ -117,7 +123,7 @@ namespace Alien.Player
 
             if (jumpPressed) jumpInputBufferTimer = jumpInputBufferTime;
 
-            if (IsGrounded()) coyoteTimer = coyoteTime;
+            if (IsPlayerGrounded()) coyoteTimer = coyoteTime;
 
             TryJump();
             ApplySpringOrAdditionalGravity();
@@ -149,6 +155,8 @@ namespace Alien.Player
             playerRigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
             applySpringForce = false;
+
+            OnJump?.Invoke();
         }
 
         private void ApplySpringOrAdditionalGravity()
@@ -195,7 +203,7 @@ namespace Alien.Player
             return moveDirection.normalized;
         }
 
-        private bool IsGrounded()
+        private bool IsPlayerGrounded()
         {
             Vector3 checkPosition = transform.position + Vector3.down * groundCheckDistance;
 
