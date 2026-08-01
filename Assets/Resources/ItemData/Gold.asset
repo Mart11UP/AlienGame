@@ -15,6 +15,6 @@ MonoBehaviour:
   id: 2ff1eaf378c0f694a9e39e9680518edb
   displayName: Gold
   description: It works to make amazing connections
-  icon: {fileID: 0}
+  icon: {fileID: -2416228288274656404, guid: 5c5a33eafa2db004b85725a407684ab6, type: 3}
   usage: 1
-  maxStackSize: 10
+  maxStackSize: 1

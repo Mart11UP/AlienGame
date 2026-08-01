@@ -15,6 +15,6 @@ MonoBehaviour:
   id: eccb3d7bdb3e527478ae858e20b1461c
   displayName: Flower
   description: Restores 10 health
-  icon: {fileID: 0}
+  icon: {fileID: -2158817008033182811, guid: 51e8f439c103741479e6e6194c5a681f, type: 3}
   usage: 1
-  maxStackSize: 10
+  maxStackSize: 1

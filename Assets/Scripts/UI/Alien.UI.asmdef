@@ -1,0 +1,17 @@
+{
+    "name": "Alien.UI",
+    "rootNamespace": "Alien.UI",
+    "references": [
+        "GUID:c213c3e311e367445b3cc51950fece0d",
+        "GUID:7204d903e7d012b40b46956bd41f2ec5"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

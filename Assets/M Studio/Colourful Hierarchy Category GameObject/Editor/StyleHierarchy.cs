@@ -29,7 +29,7 @@ namespace MStudio
             //To make sure there is no error on the first time the tool imported in project
             if (dataArray.Length == 0) return;
 
-            UnityEngine.Object instance = EditorUtility.InstanceIDToObject(instanceID);
+            UnityEngine.Object instance = EditorUtility.EntityIdToObject(instanceID);
 
             if (instance != null)
             {
