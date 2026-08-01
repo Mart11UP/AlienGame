@@ -1,6 +1,5 @@
 using NaughtyAttributes;
 using Unity.Cinemachine;
-using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
