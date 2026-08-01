@@ -17,4 +17,4 @@ MonoBehaviour:
   description: Restores 10 health
   icon: {fileID: -2158817008033182811, guid: 51e8f439c103741479e6e6194c5a681f, type: 3}
   usage: 1
-  maxStackSize: 1
+  maxStackSize: 10

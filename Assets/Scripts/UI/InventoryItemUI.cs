@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Alien.Inventory;
+using TMPro;
 
 namespace Alien.UI
 {
@@ -8,6 +9,8 @@ namespace Alien.UI
     {
         [SerializeField] Image icon;
         [SerializeField] GameObject highlight;
+        [SerializeField] TMP_Text amountText;
+        public InventoryEntry InventoryEntry { get; private set; }
         InventoryUIController inventoryUIController;
         Button button;
 
@@ -16,19 +19,26 @@ namespace Alien.UI
             button = GetComponent<Button>();
         }
 
-        public void Setup(InventoryEntry inventoryEntry = null, InventoryUIController controller = null)
+        public void Setup(InventoryEntry inventoryEntry, InventoryUIController controller)
         {
-            if (inventoryEntry == null)
-            {
-                icon.gameObject.SetActive(false);
-                return;
-            }
-
+            this.InventoryEntry = inventoryEntry;
             inventoryUIController = controller;
             highlight.SetActive(false);
 
             icon.sprite = inventoryEntry.ItemData.Icon;
             icon.gameObject.SetActive(true);
+            amountText.text = inventoryEntry.Quantity.ToString();
+            amountText.gameObject.SetActive(inventoryEntry.Quantity > 1);
+            button.onClick.AddListener(RequestSelectItem);
+        }
+
+        public void SetHighlight(bool enabled) => highlight.SetActive(enabled);
+
+        void RequestSelectItem() => inventoryUIController.SelectItem(this);
+
+        private void OnDestroy()
+        {
+            button.onClick.RemoveListener(RequestSelectItem);
         }
     }
 }

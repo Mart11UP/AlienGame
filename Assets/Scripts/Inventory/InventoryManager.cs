@@ -86,31 +86,55 @@ namespace Alien.Inventory
                 entry.Quantity -= amountToRemove;
                 remainingQuantity -= amountToRemove;
 
-                if (entry.Quantity <= 0) entries.RemoveAt(i);
+                if (entry.Quantity <= 0)
+                    entries.RemoveAt(i);
             }
 
-            UpdateEntryIndexes();
-
-            TrySaveInventoryData();
-            OnInventoryChanged?.Invoke();
+            CompleteInventoryModification();
             return true;
         }
 
-        public bool RequestUseItem(ItemData itemData)
+        public bool RequestRemoveEntry(InventoryEntry entry, int quantity = -1)
         {
-            if (itemData == null) return false;
-            if (!ContainsItem(itemData)) return false;
+            if (entry == null) return false;
+
+            int entryIndex = entries.IndexOf(entry);
+
+            if (entryIndex < 0) return false;
+
+            if (quantity < 0 || quantity >= entry.Quantity)
+                entries.RemoveAt(entryIndex);
+            else
+                entry.Quantity -= quantity;
+
+            CompleteInventoryModification();
+            return true;
+        }
+
+        private void CompleteInventoryModification()
+        {
+            UpdateEntryIndexes();
+            TrySaveInventoryData();
+            OnInventoryChanged?.Invoke();
+        }
+
+        public bool RequestUseItem(InventoryEntry entry)
+        {
+            if (entry == null || entry.ItemData == null) return false;
+            if (!entries.Contains(entry)) return false;
+
+            ItemData itemData = entry.ItemData;
 
             switch (itemData.Usage)
             {
                 case InventoryItemUsage.Consumable:
-                    return UseConsumable(itemData);
+                    return UseConsumable(entry);
 
                 case InventoryItemUsage.Equippable:
-                    return EquipItem(itemData);
+                    return EquipItem(entry);
 
                 case InventoryItemUsage.None:
-                    Debug.Log($"{itemData.DisplayName} cannot be used from the inventory.", this);
+                    Debug.Log( $"{itemData.DisplayName} cannot be used from the inventory.", this);
 
                     return false;
 
@@ -167,9 +191,11 @@ namespace Alien.Inventory
             return itemData != null;
         }
 
-        private bool UseConsumable(ItemData itemData)
+        private bool UseConsumable(InventoryEntry entry)
         {
-            if (!RequestRemoveItem(itemData)) return false;
+            ItemData itemData = entry.ItemData;
+
+            if (!RequestRemoveEntry(entry, 1)) return false;
 
             ItemUsed?.Invoke(itemData);
             Debug.Log($"Used {itemData.DisplayName}.", this);
@@ -177,8 +203,10 @@ namespace Alien.Inventory
             return true;
         }
 
-        private bool EquipItem(ItemData itemData)
+        private bool EquipItem(InventoryEntry entry)
         {
+            ItemData itemData = entry.ItemData;
+
             ItemEquipped?.Invoke(itemData);
             Debug.Log($"Equipped {itemData.DisplayName}.", this);
 
