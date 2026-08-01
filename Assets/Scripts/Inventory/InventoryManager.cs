@@ -10,6 +10,7 @@ namespace Alien.Inventory
     public class InventoryManager : MonoBehaviour
     {
         private const string ItemDataResourcesPath = "ItemData";
+        private const string InventoryDataGroupId = "Inventory";
 
         [Header("Runtime Data")]
         [SerializeField, ReadOnly] private List<InventoryEntry> entries = new();
@@ -18,7 +19,7 @@ namespace Alien.Inventory
         public IReadOnlyList<InventoryEntry> Entries => entries;
         public IReadOnlyList<ItemData> AllItemData => allItemData;
 
-        public event Action InventoryChanged;
+        public event Action OnInventoryChanged;
         public event Action<ItemData> ItemUsed;
         public event Action<ItemData> ItemEquipped;
 
@@ -35,6 +36,7 @@ namespace Alien.Inventory
             Instance = this;
 
             LoadItemData();
+            TryLoadInventoryData();
             ValidateInventoryEntries();
         }
 
@@ -60,7 +62,8 @@ namespace Alien.Inventory
                 remainingQuantity -= amountToAdd;
             }
 
-            InventoryChanged?.Invoke();
+            TrySaveInventoryData();
+            OnInventoryChanged?.Invoke();
             return true;
         }
 
@@ -88,7 +91,8 @@ namespace Alien.Inventory
 
             UpdateEntryIndexes();
 
-            InventoryChanged?.Invoke();
+            TrySaveInventoryData();
+            OnInventoryChanged?.Invoke();
             return true;
         }
 
@@ -281,6 +285,63 @@ namespace Alien.Inventory
             }
 
             UpdateEntryIndexes();
+        }
+        private bool TrySaveInventoryData()
+        {
+            List<InventoryEntrySaveData> saveData = new();
+
+            foreach (InventoryEntry entry in entries)
+                saveData.Add(new InventoryEntrySaveData(entry.ItemData.Id, entry.Quantity, entry.index));
+
+            return PersistentDataManager.TrySaveGroup(InventoryDataGroupId, saveData);
+        }
+
+        private bool TryLoadInventoryData()
+        {
+            if (!PersistentDataManager.TryGetGroup(InventoryDataGroupId, out List<InventoryEntrySaveData> saveData)) return false;
+            if (saveData == null) return false;
+
+            entries.Clear();
+
+            foreach (InventoryEntrySaveData entryData in saveData.OrderBy(entry => entry.Index))
+            {
+                ItemData itemData = GetItemDataById(entryData.ItemId);
+
+                if (itemData == null)
+                {
+                    Debug.LogWarning($"The saved inventory item '{entryData.ItemId}' was not found.", this);
+                    continue;
+                }
+
+                if (entryData.Quantity <= 0) continue;
+
+                entries.Add(new InventoryEntry(itemData, entryData.Quantity, entries.Count));
+            }
+
+            return true;
+        }
+
+        [Button]
+        public void RemoveAllInventoryData()
+        {
+            entries.Clear();
+            PersistentDataManager.TryDeleteGroup(InventoryDataGroupId);
+            OnInventoryChanged?.Invoke();
+        }
+
+        [Serializable]
+        private class InventoryEntrySaveData
+        {
+            public string ItemId;
+            public int Quantity;
+            public int Index;
+
+            public InventoryEntrySaveData(string itemId, int quantity, int index)
+            {
+                ItemId = itemId;
+                Quantity = quantity;
+                Index = index;
+            }
         }
     }
 }
