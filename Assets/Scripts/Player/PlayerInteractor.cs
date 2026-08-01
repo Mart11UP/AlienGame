@@ -34,7 +34,7 @@ namespace Alien.Player
 
         void OnInteractPerformed(InputAction.CallbackContext context)
         {
-            TryGetNearestInteractableObject(out IInteractable interactable);
+            if(!TryGetNearestInteractableObject(out IInteractable interactable)) return;
 
             interactable.Interact();
         }
