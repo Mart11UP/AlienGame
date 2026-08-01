@@ -1,9 +1,9 @@
 {
-    "name": "Alien.Interactables",
-    "rootNamespace": "Alien.Interactables",
+    "name": "Alien.Inventory",
+    "rootNamespace": "Alien.Inventory",
     "references": [
         "GUID:c213c3e311e367445b3cc51950fece0d",
-        "GUID:7204d903e7d012b40b46956bd41f2ec5"
+        "GUID:776d03a35f1b52c4a9aed9f56d7b4229"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
