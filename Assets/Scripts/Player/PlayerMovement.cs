@@ -43,6 +43,7 @@ namespace Alien.Player
         [SerializeField] string jumpActionName = "Jump";
 
         public float CurrentVelocity => new Vector3(playerRigidbody.linearVelocity.x, 0, playerRigidbody.linearVelocity.z).magnitude;
+        public float MovementInputMagnitude => movementInput.magnitude; 
         public bool IsGrounded => coyoteTimer > 0;
         public UnityEvent OnJump;
 
@@ -83,7 +84,6 @@ namespace Alien.Player
         private void Update()
         {
             movementInput = moveAction?.ReadValue<Vector2>() ?? Vector2.zero;
-            print(coyoteTimer);
         }
 
         private void FixedUpdate()

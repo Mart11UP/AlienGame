@@ -29,7 +29,7 @@ namespace Alien.Player
 
         private void Update()
         {
-            animator.SetFloat(velocityParam, playerMovement.CurrentVelocity);
+            animator.SetFloat(velocityParam, playerMovement.MovementInputMagnitude);
             animator.SetBool(isGroundedParam, playerMovement.IsGrounded);
         }
 
