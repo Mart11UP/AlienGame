@@ -764,7 +764,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687711541}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 495c7bcc920c2d746851c20bcbfe51b4, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -836,7 +836,7 @@ Rigidbody:
   m_GameObject: {fileID: 1687711541}
   serializedVersion: 5
   m_Mass: 1
-  m_LinearDamping: 4
+  m_LinearDamping: 10
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -869,12 +869,12 @@ MonoBehaviour:
   playerRigidbody: {fileID: 1687711548}
   playerInput: {fileID: 1687711547}
   cameraReference: {fileID: 1856689469}
-  moveForce: 38
-  jumpForce: 14
+  moveForce: 70
+  jumpForce: 35
   rotationSpeed: 5
-  additionalFallGravity: 50
-  additionalJumpGravity: 12
-  groundCheckDistance: 0.75
+  additionalFallGravity: 100
+  additionalJumpGravity: 0
+  groundCheckDistance: 1
   radius: 0.49
   groundLayers:
     serializedVersion: 2
@@ -920,7 +920,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Alien.Player::Alien.Player.PlayerInteractor
   playerInput: {fileID: 0}
-  interactionOrigin: {x: 0, y: -0.2, z: 0.64}
+  interactionOrigin: {x: 0, y: -0.2, z: 1}
   interactionRadius: 1
   interactionMask:
     serializedVersion: 2
