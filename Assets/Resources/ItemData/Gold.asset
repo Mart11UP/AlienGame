@@ -16,5 +16,15 @@ MonoBehaviour:
   displayName: Gold
   description: It works to make amazing connections
   icon: {fileID: -2416228288274656404, guid: 5c5a33eafa2db004b85725a407684ab6, type: 3}
-  usage: 0
+  usage: 1
   maxStackSize: 1
+  consumableEffects:
+  - effect:
+      rid: 9010459355617165397
+  references:
+    version: 2
+    RefIds:
+    - rid: 9010459355617165397
+      type: {class: HealEffect, ns: Alien.Gameplay, asm: Alien.Gameplay}
+      data:
+        amount: 10

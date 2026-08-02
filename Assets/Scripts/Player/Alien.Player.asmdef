@@ -3,6 +3,8 @@
     "rootNamespace": "Alien.Player",
     "references": [
         "GUID:776d03a35f1b52c4a9aed9f56d7b4229",
+        "GUID:c213c3e311e367445b3cc51950fece0d",
+        "GUID:7204d903e7d012b40b46956bd41f2ec5",
         "GUID:75469ad4d38634e559750d17036d5f7c",
         "GUID:4307f53044263cf4b835bd812fc161a4",
         "GUID:099ca0b005e2e1a4b8eae24d50886305"

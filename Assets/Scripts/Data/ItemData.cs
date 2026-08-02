@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
 
@@ -18,6 +19,8 @@ namespace Alien.Data
         [Header("Inventory")]
         [SerializeField] private InventoryItemUsage usage;
         [SerializeField, Min(1)] private int maxStackSize = 1;
+        [SerializeField, ShowIf(nameof(usage), InventoryItemUsage.Consumable), ReorderableList]
+        private List<ConsumableEffectEntry> consumableEffects = new();
 
         public string Id => id;
         public string DisplayName => displayName;
@@ -25,6 +28,7 @@ namespace Alien.Data
         public Sprite Icon => icon;
         public InventoryItemUsage Usage => usage;
         public int MaxStackSize => maxStackSize;
+        public IReadOnlyList<ConsumableEffectEntry> ConsumableEffects => consumableEffects;
 
 #if UNITY_EDITOR
         private void OnValidate()

@@ -3281,6 +3281,7 @@ GameObject:
   - component: {fileID: 1687711550}
   - component: {fileID: 1687711552}
   - component: {fileID: 1687711553}
+  - component: {fileID: 1687711554}
   - component: {fileID: 1687711547}
   - component: {fileID: 1687711543}
   - component: {fileID: 1687711548}
@@ -3493,6 +3494,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Alien.Gameplay::Alien.Gameplay.HealthReducerByTime
   healthReductionPerSecond: 1
+--- !u!114 &1687711554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687711541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28c672b8af7e430fbb7f417c52e35884, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Alien.Player::Alien.Player.PlayerConsumableEffectReceiver
 --- !u!1 &1729081130
 GameObject:
   m_ObjectHideFlags: 0

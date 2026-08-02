@@ -18,3 +18,13 @@ MonoBehaviour:
   icon: {fileID: -2158817008033182811, guid: 51e8f439c103741479e6e6194c5a681f, type: 3}
   usage: 1
   maxStackSize: 10
+  consumableEffects:
+  - effect:
+      rid: 7349019249511721010
+  references:
+    version: 2
+    RefIds:
+    - rid: 7349019249511721010
+      type: {class: HealEffect, ns: Alien.Gameplay, asm: Alien.Gameplay}
+      data:
+        amount: 10

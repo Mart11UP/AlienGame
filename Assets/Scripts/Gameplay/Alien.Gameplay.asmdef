@@ -1,7 +1,9 @@
 {
     "name": "Alien.Gameplay",
     "rootNamespace": "Alien.Gameplay",
-    "references": [],
+    "references": [
+        "GUID:c213c3e311e367445b3cc51950fece0d"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
