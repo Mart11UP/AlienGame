@@ -3267,6 +3267,12 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1494802459931349232, guid: b8fc0488594a66b48b717f5698c583ad, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 628433608}
+    - targetCorrespondingSourceObject: {fileID: 1494802459931349232, guid: b8fc0488594a66b48b717f5698c583ad, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 628433607}
     - targetCorrespondingSourceObject: {fileID: 7580491704012498985, guid: b8fc0488594a66b48b717f5698c583ad, type: 3}
       insertIndex: 1
       addedObject: {fileID: 1497627101}
@@ -3921,6 +3927,48 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4646933745565138, guid: 4983f395b2610de4e9f688a87bbd9af9, type: 3}
   m_PrefabInstance: {fileID: 616071848}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &628433605 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1494802459931349232, guid: b8fc0488594a66b48b717f5698c583ad, type: 3}
+  m_PrefabInstance: {fileID: 487119044}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &628433607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 628433605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c10c47b0fbd44b8bb49530467b07f8cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Alien.Gameplay::Alien.Gameplay.HealthDamageArea
+  damagePerSecond: 20
+  affectedLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!65 &628433608
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 628433605}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2, y: 1, z: 2}
+  m_Center: {x: 0, y: -0.25, z: 0}
 --- !u!1001 &632595240
 PrefabInstance:
   m_ObjectHideFlags: 0
