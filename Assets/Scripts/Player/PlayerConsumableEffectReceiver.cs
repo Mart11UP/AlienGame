@@ -9,6 +9,8 @@ namespace Alien.Player
     {
         private void OnEnable()
         {
+            if (InventoryManager.Instance == null) return;
+
             InventoryManager.Instance.ItemUsed += ApplyConsumableEffects;
         }
 

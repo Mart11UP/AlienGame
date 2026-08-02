@@ -525,6 +525,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &252114025
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 252114027}
+  - component: {fileID: 252114026}
+  m_Layer: 0
+  m_Name: GameStateManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &252114026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 252114025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6a8e1d4c0374e8aa9bf2408d04c97e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Alien.Gameplay::Alien.Gameplay.GameStateManager
+  initialState: 0
+--- !u!4 &252114027
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 252114025}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -3282,6 +3327,7 @@ GameObject:
   - component: {fileID: 1687711552}
   - component: {fileID: 1687711553}
   - component: {fileID: 1687711554}
+  - component: {fileID: 1687711555}
   - component: {fileID: 1687711547}
   - component: {fileID: 1687711543}
   - component: {fileID: 1687711548}
@@ -3493,7 +3539,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fee662d5da664a4b8a298620819e1c5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Alien.Gameplay::Alien.Gameplay.HealthReducerByTime
-  healthReductionPerSecond: 1
+  healthReductionPerSecond: 0.5
 --- !u!114 &1687711554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3504,8 +3550,48 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 28c672b8af7e430fbb7f417c52e35884, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Alien.Player::Alien.Player.PlayerConsumableEffectReceiver
+--- !u!114 &1687711555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687711541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2f04379bd764438a423ba1b85dc58bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Alien.Gameplay::Alien.Gameplay.PauseStateListener
+  invertValue: 1
+  onPauseChanged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1687711551}
+        m_TargetAssemblyTypeName: Alien.Player.PlayerInteractor, Alien.Player
+        m_MethodName: set_enabled
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1687711549}
+        m_TargetAssemblyTypeName: Alien.Player.PlayerMovement, Alien.Player
+        m_MethodName: set_enabled
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1729081130
 GameObject:
   m_ObjectHideFlags: 0
@@ -3557,7 +3643,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Alien.UI::Alien.UI.UIWindow
   root: {fileID: 818278240}
   hideOnAwake: 1
-  freezeTimeWhileVisible: 1
+  pauseWhileVisible: 1
   toggleButtons:
   - {fileID: 1189403622}
   toggleActions:
@@ -5349,5 +5435,6 @@ SceneRoots:
   - {fileID: 634321798}
   - {fileID: 1875835156}
   - {fileID: 252114024}
+  - {fileID: 252114027}
   - {fileID: 220503517}
   - {fileID: 2135163632}

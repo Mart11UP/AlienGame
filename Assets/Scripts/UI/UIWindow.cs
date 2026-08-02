@@ -1,3 +1,4 @@
+using Alien.Gameplay;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
@@ -10,7 +11,7 @@ namespace Alien.UI
     {
         [SerializeField] private GameObject root;
         [SerializeField] private bool hideOnAwake = true; 
-        [SerializeField] private bool freezeTimeWhileVisible = false;
+        [SerializeField] private bool pauseWhileVisible = false;
         [SerializeField] private Button[] toggleButtons;
         [SerializeField] private InputActionReference[] toggleActions;
 
@@ -37,7 +38,7 @@ namespace Alien.UI
         {
             if (root == null) return;
 
-            if (freezeTimeWhileVisible) Time.timeScale = 0;
+            if (pauseWhileVisible) GameStateManager.Instance.Pause();
             root.SetActive(true);
             OnShown();
         }
@@ -46,7 +47,7 @@ namespace Alien.UI
         {
             if (root == null) return;
 
-            if (freezeTimeWhileVisible) Time.timeScale = 1;
+            if (pauseWhileVisible) GameStateManager.Instance.ResumeGameplay();
             root.SetActive(false);
             OnHidden();
         }

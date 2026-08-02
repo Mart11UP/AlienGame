@@ -20,11 +20,11 @@ MonoBehaviour:
   maxStackSize: 10
   consumableEffects:
   - effect:
-      rid: 7349019249511721010
+      rid: 9010459355617165406
   references:
     version: 2
     RefIds:
-    - rid: 7349019249511721010
+    - rid: 9010459355617165406
       type: {class: HealEffect, ns: Alien.Gameplay, asm: Alien.Gameplay}
       data:
         amount: 10

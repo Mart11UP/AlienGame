@@ -17,15 +17,17 @@ namespace Alien.Editor
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             SerializedProperty effectProperty = property.FindPropertyRelative(EffectPropertyName);
+            bool isEditingMultipleObjects = property.serializedObject.isEditingMultipleObjects;
             EditorGUI.BeginProperty(position, label, property);
 
             Rect selectorRect = new(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
-            GUIContent selectorLabel = new(GetEffectDisplayName(effectProperty));
+            GUIContent selectorLabel = new(isEditingMultipleObjects ? "Multiple Effects" : GetEffectDisplayName(effectProperty));
 
-            if (EditorGUI.DropdownButton(selectorRect, selectorLabel, FocusType.Keyboard, EditorStyles.popup))
-                ShowEffectMenu(effectProperty, selectorRect);
+            using (new EditorGUI.DisabledScope(isEditingMultipleObjects))
+                if (EditorGUI.DropdownButton(selectorRect, selectorLabel, FocusType.Keyboard, EditorStyles.popup))
+                    ShowEffectMenu(effectProperty, selectorRect);
 
-            if (effectProperty.managedReferenceValue != null)
+            if (!isEditingMultipleObjects && effectProperty.managedReferenceValue != null)
             {
                 Rect fieldsRect = new(position.x, selectorRect.yMax + VerticalSpacing, position.width, 0f);
                 DrawEffectFields(fieldsRect, effectProperty);
@@ -36,6 +38,8 @@ namespace Alien.Editor
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
+            if (property.serializedObject.isEditingMultipleObjects) return EditorGUIUtility.singleLineHeight;
+
             SerializedProperty effectProperty = property.FindPropertyRelative(EffectPropertyName);
             float fieldsHeight = GetEffectFieldsHeight(effectProperty);
 
@@ -57,8 +61,10 @@ namespace Alien.Editor
                 Type capturedType = effectType;
                 string displayName = ObjectNames.NicifyVariableName(effectType.Name);
 
-                menu.AddItem(new GUIContent(displayName), currentType == effectType,
-                    () => AssignEffect(serializedObject, propertyPath, capturedType));
+                if (currentType == effectType)
+                    menu.AddDisabledItem(new GUIContent(displayName), true);
+                else
+                    menu.AddItem(new GUIContent(displayName), false, () => AssignEffect(serializedObject, propertyPath, capturedType));
             }
 
             menu.DropDown(selectorRect);
