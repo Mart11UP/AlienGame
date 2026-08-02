@@ -143,6 +143,26 @@ namespace Alien.Inventory
             }
         }
 
+        public bool RequestMoveEntry(InventoryEntry entry, int targetIndex)
+        {
+            if (entry == null) return false;
+
+            int currentIndex = entries.IndexOf(entry);
+
+            if (currentIndex < 0) return false;
+
+            targetIndex = Mathf.Clamp(targetIndex, 0, entries.Count - 1);
+
+            if (currentIndex == targetIndex) return false;
+
+            entries.RemoveAt(currentIndex);
+            entries.Insert(targetIndex, entry);
+
+            CompleteInventoryModification();
+
+            return true;
+        }
+
         public bool ContainsItem(ItemData itemData, int quantity = 1)
         {
             if (itemData == null || quantity <= 0) return false;

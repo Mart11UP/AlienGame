@@ -20,7 +20,7 @@ namespace Alien.UI
         [SerializeField] TMP_Text useButtonText;
         [SerializeField] Button discardButton;
 
-        InventoryItemUI currentSelectedItem;
+        InventoryItemUI selectedUIItem;
         List<InventoryItemUI> currentItemsUI = new();
 
         private void Awake()
@@ -44,6 +44,8 @@ namespace Alien.UI
 
         void SetupItemsUI()
         {
+            InventoryEntry lastSelectedEntry = selectedUIItem != null ? selectedUIItem.InventoryEntry : null;
+
             EnsureItemsUICount();
             IReadOnlyList<InventoryEntry> entries = InventoryManager.Instance.Entries;
             for (int i = 0; i < entries.Count; i++)
@@ -51,34 +53,59 @@ namespace Alien.UI
                 InventoryEntry entry = entries[i];
                 InventoryItemUI itemUI = currentItemsUI[i];
 
-                itemUI.Setup(entry, this);
+                itemUI.Setup(entry);
             }
 
-            if (currentSelectedItem) currentSelectedItem = entries.Contains(currentSelectedItem.InventoryEntry) ? currentSelectedItem : null;
-            SelectItem(currentSelectedItem);
+            TryGetSelectedUIItem(lastSelectedEntry, out selectedUIItem);
+            SelectItem(selectedUIItem);
+        }
+
+        private bool TryGetSelectedUIItem(InventoryEntry entry, out InventoryItemUI inventoryItemUI)
+        {
+            if (entry == null)
+            {
+                inventoryItemUI = null;
+                return false;
+            }
+
+            if(!InventoryManager.Instance.Entries.Contains(entry))
+            {
+                inventoryItemUI = null;
+                return false;
+            }
+
+            foreach (InventoryItemUI itemUI in currentItemsUI)
+                if (itemUI.InventoryEntry == entry)
+                {
+                    inventoryItemUI = itemUI;
+                    return true;
+                }
+
+            inventoryItemUI = null;
+            return false;
         }
 
         public void SelectItem(InventoryItemUI inventoryItemUI = null)
         {
-            if(inventoryItemUI == null)
+            if (inventoryItemUI == null)
             {
                 SetupInfoContainer();
-                if(currentSelectedItem) currentSelectedItem.SetHighlight(false);
-                currentSelectedItem = null;
+                if (selectedUIItem) selectedUIItem.SetHighlight(false);
+                selectedUIItem = null;
                 return;
             }
 
-            if (currentSelectedItem) currentSelectedItem.SetHighlight(false);
+            if (selectedUIItem) selectedUIItem.SetHighlight(false);
 
             SetupInfoContainer(inventoryItemUI.InventoryEntry);
             inventoryItemUI.SetHighlight(true);
 
-            currentSelectedItem = inventoryItemUI;
+            selectedUIItem = inventoryItemUI;
         }
 
-        void RequestDiscardSelectedItem() => InventoryManager.Instance.RequestRemoveEntry(currentSelectedItem.InventoryEntry);
+        void RequestDiscardSelectedItem() => InventoryManager.Instance.RequestRemoveEntry(selectedUIItem.InventoryEntry);
 
-        void RequestUseSelectedItem() => InventoryManager.Instance.RequestUseItem(currentSelectedItem.InventoryEntry);
+        void RequestUseSelectedItem() => InventoryManager.Instance.RequestUseItem(selectedUIItem.InventoryEntry);
 
         void SetupInfoContainer(InventoryEntry entry = null)
         {
@@ -96,6 +123,12 @@ namespace Alien.UI
             useButton.gameObject.SetActive(entry.ItemData.Usage != Data.InventoryItemUsage.None);
         }
 
+        private void OnItemUIReordered(DraggableGridItem draggableItem, int previousIndex, int newIndex)
+        {
+            if (!draggableItem.TryGetComponent(out InventoryItemUI itemUI)) return;
+            InventoryManager.Instance.RequestMoveEntry(itemUI.InventoryEntry, newIndex);
+        }
+
         void EnsureItemsUICount()
         {
             int requiredCount = InventoryManager.Instance.Entries.Count;
@@ -109,6 +142,9 @@ namespace Alien.UI
                 {
                     InventoryItemUI instance = Instantiate(itemUIReference, container);
                     instance.gameObject.SetActive(true);
+                    instance.Initialize(this);
+                    instance.DraggableItem.OnReordered += OnItemUIReordered;
+
                     currentItemsUI.Add(instance);
                 }
             }
@@ -121,10 +157,14 @@ namespace Alien.UI
                     int lastIndex = currentItemsUI.Count - 1;
                     InventoryItemUI instance = currentItemsUI[lastIndex];
 
+                    instance.DraggableItem.OnReordered -= OnItemUIReordered;
+
                     currentItemsUI.RemoveAt(lastIndex);
                     Destroy(instance != null ? instance.gameObject : null);
                 }
             }
+
+            itemUIReference.transform.SetSiblingIndex(container.childCount);
         }
     }
 }
