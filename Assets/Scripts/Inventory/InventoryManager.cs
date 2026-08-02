@@ -15,7 +15,7 @@ namespace Alien.Inventory
         [SerializeField, Min(1)] private int slotCount = 20;
 
         [Header("Runtime Data")]
-        [SerializeField, ReadOnly] private List<InventoryEntry> entries = new();
+        [SerializeReference, ReadOnly] private List<InventoryEntry> entries = new();
         [SerializeField, ReadOnly] private ItemData[] allItemData;
 
         public IReadOnlyList<InventoryEntry> Entries => entries;
@@ -63,6 +63,9 @@ namespace Alien.Inventory
         public bool RequestAddItem(ItemData itemData, int quantity = 1)
         {
             if (!ValidateRequest(itemData, quantity)) return false;
+
+            ValidateInventoryEntries();
+
             if (!HasSpaceForItem(itemData, quantity)) return false;
 
             int remainingQuantity = AddToExistingStacks(itemData, quantity);
@@ -369,6 +372,8 @@ namespace Alien.Inventory
         }
         private bool TrySaveInventoryData()
         {
+            ValidateInventoryEntries();
+
             List<InventoryEntrySaveData> saveData = new();
 
             for (int i = 0; i < entries.Count; i++)
