@@ -148,8 +148,7 @@ namespace Alien.Editor
             List<Type> effectTypes = new();
 
             foreach (Type type in TypeCache.GetTypesDerivedFrom<ConsumableEffect>())
-                if (type.IsSerializable && !type.IsAbstract && !type.IsGenericType &&
-                    type.GetConstructor(Type.EmptyTypes) != null)
+                if (type.IsSerializable && !type.IsAbstract && !type.IsGenericType && type.GetConstructor(Type.EmptyTypes) != null)
                     effectTypes.Add(type);
 
             effectTypes.Sort((left, right) => string.Compare(left.Name, right.Name, StringComparison.Ordinal));

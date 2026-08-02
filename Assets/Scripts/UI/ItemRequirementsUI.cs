@@ -42,9 +42,7 @@ namespace Alien.UI
             for (int i = 0; i < itemsUI.Count; i++)
             {
                 ItemRequirement requirement = requirements[i];
-                int ownedQuantity = requirement != null
-                    ? InventoryManager.Instance.GetItemQuantity(requirement.ItemData)
-                    : 0;
+                int ownedQuantity = requirement != null ? InventoryManager.Instance.GetItemQuantity(requirement.ItemData) : 0;
 
                 itemsUI[i].Setup(requirement, ownedQuantity);
             }

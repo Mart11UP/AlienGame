@@ -2,6 +2,8 @@ using UnityEngine;
 
 namespace Alien.Generic
 {
+    // Based on a script from a previous project
+
     public class Billboard : MonoBehaviour
     {
         [SerializeField] private Camera targetCamera;
