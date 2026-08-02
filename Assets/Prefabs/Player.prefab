@@ -414,7 +414,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Alien::Alien.Health
   maxHealth: 100
-  depletionAction: 0
+  depletionAction: 3
   OnHealthChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -433,7 +433,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fee662d5da664a4b8a298620819e1c5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Alien.Gameplay::Alien.Gameplay.HealthReducerByTime
-  healthReductionPerSecond: 0.5
+  healthReductionPerSecond: 1.5
 --- !u!114 &6626535696177602200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -476,6 +476,18 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 6247098383766945578}
         m_TargetAssemblyTypeName: Alien.Player.PlayerMovement, Alien.Player
+        m_MethodName: set_enabled
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3286939671689080485}
+        m_TargetAssemblyTypeName: Alien.Gameplay.HealthReducerByTime, Alien.Gameplay
         m_MethodName: set_enabled
         m_Mode: 0
         m_Arguments:

@@ -45,13 +45,7 @@ namespace Alien.Gameplay
 
         public void RequestState(GameState state, bool affectTimeScale = true)
         {
-            if (CurrentState == state)
-            {
-                if (affectTimeScale)
-                    ApplyTimeScale();
-
-                return;
-            }
+            if (CurrentState == state) return;
 
             CurrentState = state;
 

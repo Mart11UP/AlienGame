@@ -7,7 +7,8 @@ namespace Alien.Gameplay
     {
         None,
         DisableGameObject,
-        DestroyGameObject
+        DestroyGameObject,
+        ReloadCurrentScene
     }
 
     public class Health : MonoBehaviour
@@ -77,6 +78,10 @@ namespace Alien.Gameplay
 
                 case HealthDepletionAction.DestroyGameObject:
                     Destroy(gameObject);
+                    break;
+
+                case HealthDepletionAction.ReloadCurrentScene:
+                    SceneReload.ReloadCurrentScene();
                     break;
             }
         }
