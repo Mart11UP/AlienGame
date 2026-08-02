@@ -433,7 +433,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fee662d5da664a4b8a298620819e1c5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Alien.Gameplay::Alien.Gameplay.HealthReducerByTime
-  healthReductionPerSecond: 1.5
+  healthReductionPerSecond: 0.5
 --- !u!114 &6626535696177602200
 MonoBehaviour:
   m_ObjectHideFlags: 0
