@@ -17,7 +17,7 @@ MonoBehaviour:
   description: It works to make amazing connections
   icon: {fileID: -2416228288274656404, guid: 5c5a33eafa2db004b85725a407684ab6, type: 3}
   usage: 0
-  maxStackSize: 1
+  maxStackSize: 5
   consumableEffects: []
   references:
     version: 2
