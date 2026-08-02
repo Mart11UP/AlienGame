@@ -43,12 +43,21 @@ namespace Alien.Gameplay
             Time.timeScale = 1f;
         }
 
-        public void RequestState(GameState state)
+        public void RequestState(GameState state, bool affectTimeScale = true)
         {
-            if (CurrentState == state) return;
+            if (CurrentState == state)
+            {
+                if (affectTimeScale)
+                    ApplyTimeScale();
+
+                return;
+            }
 
             CurrentState = state;
-            ApplyTimeScale();
+
+            if (affectTimeScale)
+                ApplyTimeScale();
+
             StateChanged?.Invoke(CurrentState);
             PauseChanged?.Invoke(IsPaused);
         }
