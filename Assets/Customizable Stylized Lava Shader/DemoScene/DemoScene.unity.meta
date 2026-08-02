@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 0f1d8deae556908428987b323f1872f6
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 317071
+  packageName: Customizable Stylized Lava Shader for Unity
+  packageVersion: 1.0.3
+  assetPath: Assets/Customizable Stylized Lava Shader/DemoScene/DemoScene.unity
+  uploadId: 796818

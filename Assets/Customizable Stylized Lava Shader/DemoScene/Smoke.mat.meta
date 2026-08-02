@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: fd68b0fac34569242bb9abcf3d828da8
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 317071
+  packageName: Customizable Stylized Lava Shader for Unity
+  packageVersion: 1.0.3
+  assetPath: Assets/Customizable Stylized Lava Shader/DemoScene/Smoke.mat
+  uploadId: 796818

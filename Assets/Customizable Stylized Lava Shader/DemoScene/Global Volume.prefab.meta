@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: f13edaa8ed4aa9d42ad78baa670e938f
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 317071
+  packageName: Customizable Stylized Lava Shader for Unity
+  packageVersion: 1.0.3
+  assetPath: Assets/Customizable Stylized Lava Shader/DemoScene/Global Volume.prefab
+  uploadId: 796818
