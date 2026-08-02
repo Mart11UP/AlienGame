@@ -10,8 +10,8 @@ namespace Alien.Interactables
 
         public void Interact()
         {
-            gameObject.SetActive(false);
-            InventoryManager.Instance.RequestAddItem(itemData);
+            if (InventoryManager.Instance.RequestAddItem(itemData))
+                gameObject.SetActive(false);
         }
     }
 }

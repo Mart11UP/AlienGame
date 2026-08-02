@@ -12,6 +12,8 @@ namespace Alien.Inventory
         private const string ItemDataResourcesPath = "ItemData";
         private const string InventoryDataGroupId = "Inventory";
 
+        [SerializeField, Min(1)] private int slotCount = 20;
+
         [Header("Runtime Data")]
         [SerializeField, ReadOnly] private List<InventoryEntry> entries = new();
         [SerializeField, ReadOnly] private ItemData[] allItemData;
@@ -36,8 +38,17 @@ namespace Alien.Inventory
             Instance = this;
 
             LoadItemData();
+            InitializeSlots();
             TryLoadInventoryData();
             ValidateInventoryEntries();
+        }
+
+        private void InitializeSlots()
+        {
+            entries.Clear();
+
+            for (int i = 0; i < Mathf.Max(1, slotCount); i++)
+                entries.Add(null);
         }
 
         private void LoadItemData()
@@ -52,13 +63,16 @@ namespace Alien.Inventory
         public bool RequestAddItem(ItemData itemData, int quantity = 1)
         {
             if (!ValidateRequest(itemData, quantity)) return false;
+            if (!HasSpaceForItem(itemData, quantity)) return false;
 
             int remainingQuantity = AddToExistingStacks(itemData, quantity);
 
             while (remainingQuantity > 0)
             {
                 int amountToAdd = Mathf.Min(remainingQuantity, itemData.MaxStackSize);
-                entries.Add(new InventoryEntry(itemData, amountToAdd, entries.Count));
+                int emptySlotIndex = entries.IndexOf(null);
+
+                entries[emptySlotIndex] = new InventoryEntry(itemData, amountToAdd, emptySlotIndex);
                 remainingQuantity -= amountToAdd;
             }
 
@@ -78,7 +92,7 @@ namespace Alien.Inventory
             {
                 InventoryEntry entry = entries[i];
 
-                if (entry.ItemData != itemData)
+                if (entry == null || entry.ItemData != itemData)
                     continue;
 
                 int amountToRemove = Mathf.Min(entry.Quantity, remainingQuantity);
@@ -87,7 +101,7 @@ namespace Alien.Inventory
                 remainingQuantity -= amountToRemove;
 
                 if (entry.Quantity <= 0)
-                    entries.RemoveAt(i);
+                    entries[i] = null;
             }
 
             CompleteInventoryModification();
@@ -103,7 +117,7 @@ namespace Alien.Inventory
             if (entryIndex < 0) return false;
 
             if (quantity < 0 || quantity >= entry.Quantity)
-                entries.RemoveAt(entryIndex);
+                entries[entryIndex] = null;
             else
                 entry.Quantity -= quantity;
 
@@ -155,8 +169,8 @@ namespace Alien.Inventory
 
             if (currentIndex == targetIndex) return false;
 
-            entries.RemoveAt(currentIndex);
-            entries.Insert(targetIndex, entry);
+            entries[currentIndex] = entries[targetIndex];
+            entries[targetIndex] = entry;
 
             CompleteInventoryModification();
 
@@ -177,7 +191,7 @@ namespace Alien.Inventory
             int totalQuantity = 0;
 
             foreach (InventoryEntry entry in entries)
-                if (entry.ItemData == itemData) totalQuantity += entry.Quantity;
+                if (entry != null && entry.ItemData == itemData) totalQuantity += entry.Quantity;
 
             return totalQuantity;
         }
@@ -186,7 +200,7 @@ namespace Alien.Inventory
         {
             if (itemData == null) return null;
 
-            return entries.Find(entry => entry.ItemData == itemData);
+            return entries.Find(entry => entry != null && entry.ItemData == itemData);
         }
 
         public bool TryGetFirstEntry(ItemData itemData, out InventoryEntry entry)
@@ -237,7 +251,7 @@ namespace Alien.Inventory
         {
             foreach (InventoryEntry entry in entries)
             {
-                if (entry.ItemData != itemData) continue;
+                if (entry == null || entry.ItemData != itemData) continue;
                 if (entry.Quantity >= itemData.MaxStackSize) continue;
 
                 int availableSpace = itemData.MaxStackSize - entry.Quantity;
@@ -252,10 +266,27 @@ namespace Alien.Inventory
             return quantity;
         }
 
+        private bool HasSpaceForItem(ItemData itemData, int quantity)
+        {
+            int availableSpace = 0;
+
+            foreach (InventoryEntry entry in entries)
+            {
+                if (entry == null)
+                    availableSpace += itemData.MaxStackSize;
+                else if (entry.ItemData == itemData)
+                    availableSpace += Mathf.Max(0, itemData.MaxStackSize - entry.Quantity);
+
+                if (availableSpace >= quantity) return true;
+            }
+
+            return false;
+        }
+
         private void UpdateEntryIndexes()
         {
             for (int i = 0; i < entries.Count; i++)
-                entries[i].index = i;
+                if (entries[i] != null) entries[i].index = i;
         }
 
         private bool ValidateRequest(ItemData itemData, int quantity)
@@ -319,16 +350,18 @@ namespace Alien.Inventory
             {
                 InventoryEntry entry = entries[i];
 
-                if (entry == null || entry.ItemData == null || entry.Quantity <= 0)
+                if (entry == null) continue;
+
+                if (entry.ItemData == null || entry.Quantity <= 0)
                 {
-                    entries.RemoveAt(i);
+                    entries[i] = null;
                     continue;
                 }
 
                 if (!IsRegisteredItem(entry.ItemData))
                 {
                     Debug.LogWarning($"Removing inventory entry '{entry.ItemData.name}' " + "because its ItemData is not registered.", entry.ItemData);
-                    entries.RemoveAt(i);
+                    entries[i] = null;
                 }
             }
 
@@ -338,8 +371,13 @@ namespace Alien.Inventory
         {
             List<InventoryEntrySaveData> saveData = new();
 
-            foreach (InventoryEntry entry in entries)
-                saveData.Add(new InventoryEntrySaveData(entry.ItemData.Id, entry.Quantity, entry.index));
+            for (int i = 0; i < entries.Count; i++)
+            {
+                InventoryEntry entry = entries[i];
+
+                if (entry != null)
+                    saveData.Add(new InventoryEntrySaveData(entry.ItemData.Id, entry.Quantity, i));
+            }
 
             return PersistentDataManager.TrySaveGroup(InventoryDataGroupId, saveData);
         }
@@ -349,10 +387,21 @@ namespace Alien.Inventory
             if (!PersistentDataManager.TryGetGroup(InventoryDataGroupId, out List<InventoryEntrySaveData> saveData)) return false;
             if (saveData == null) return false;
 
-            entries.Clear();
+            int highestSavedIndex = saveData.Count > 0 ? saveData.Max(entry => entry.Index) : -1;
+
+            if (highestSavedIndex >= entries.Count)
+            {
+                Debug.LogWarning($"The saved inventory requires {highestSavedIndex + 1} slots. " +
+                                 $"Expanding beyond the configured {entries.Count} slots to preserve its items.", this);
+
+                while (entries.Count <= highestSavedIndex)
+                    entries.Add(null);
+            }
 
             foreach (InventoryEntrySaveData entryData in saveData.OrderBy(entry => entry.Index))
             {
+                if (entryData.Index < 0) continue;
+
                 ItemData itemData = GetItemDataById(entryData.ItemId);
 
                 if (itemData == null)
@@ -363,7 +412,7 @@ namespace Alien.Inventory
 
                 if (entryData.Quantity <= 0) continue;
 
-                entries.Add(new InventoryEntry(itemData, entryData.Quantity, entries.Count));
+                entries[entryData.Index] = new InventoryEntry(itemData, entryData.Quantity, entryData.Index);
             }
 
             return true;
@@ -372,7 +421,7 @@ namespace Alien.Inventory
         [Button]
         public void RemoveAllInventoryData()
         {
-            entries.Clear();
+            InitializeSlots();
             PersistentDataManager.TryDeleteGroup(InventoryDataGroupId);
             OnInventoryChanged?.Invoke();
         }

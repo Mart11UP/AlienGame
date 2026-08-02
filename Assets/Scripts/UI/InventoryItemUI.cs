@@ -29,10 +29,16 @@ namespace Alien.UI
             InventoryEntry = inventoryEntry;
             highlight.SetActive(false);
 
+            bool hasItem = inventoryEntry != null;
+
+            icon.gameObject.SetActive(hasItem);
+            amountText.gameObject.SetActive(hasItem && inventoryEntry.Quantity > 1);
+            DraggableItem.enabled = hasItem;
+
+            if (!hasItem) return;
+
             icon.sprite = inventoryEntry.ItemData.Icon;
-            icon.gameObject.SetActive(true);
             amountText.text = inventoryEntry.Quantity.ToString();
-            amountText.gameObject.SetActive(inventoryEntry.Quantity > 1);
         }
 
         public void SetHighlight(bool enabled) => highlight.SetActive(enabled);

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -56,7 +55,7 @@ namespace Alien.UI
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            DraggableGridItem target = FindItemUnderPointer(eventData);
+            DraggableGridItem target = FindNearestItem(eventData);
 
             if (target != null && target != this)
             {
@@ -67,7 +66,7 @@ namespace Alien.UI
                 OnReordered?.Invoke(this, originalSiblingIndex, targetIndex);
             }
             else
-                if (modifyHierarchy) transform.SetSiblingIndex(originalSiblingIndex); 
+                if (modifyHierarchy) transform.SetSiblingIndex(originalSiblingIndex);
 
             canvasGroup.alpha = 1f;
             canvasGroup.blocksRaycasts = true;
@@ -111,19 +110,40 @@ namespace Alien.UI
                 dragVisualRect.localPosition = localPosition;
         }
 
-        private DraggableGridItem FindItemUnderPointer(PointerEventData eventData)
+        private DraggableGridItem FindNearestItem(PointerEventData eventData)
         {
-            List<RaycastResult> results = new();
-            EventSystem.current.RaycastAll(eventData, results);
+            Camera eventCamera = rootCanvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : rootCanvas.worldCamera;
 
-            foreach (RaycastResult result in results)
+            if (!RectTransformUtility.RectangleContainsScreenPoint(gridContainer, eventData.position, eventCamera)) return null;
+
+            DraggableGridItem nearestItem = null;
+            float nearestVerticalDistance = float.MaxValue;
+            float nearestHorizontalDistance = float.MaxValue;
+
+            for (int i = 0; i < gridContainer.childCount; i++)
             {
-                DraggableGridItem item = result.gameObject.GetComponentInParent<DraggableGridItem>();
+                Transform child = gridContainer.GetChild(i);
 
-                if (item != null && item != this && item.gridContainer == gridContainer) return item;
+                if (!child.TryGetComponent(out DraggableGridItem item)) continue;
+                if (!item.gameObject.activeInHierarchy) continue;
+
+                RectTransform itemRect = item.transform as RectTransform;
+                Vector3 itemCenter = itemRect.TransformPoint(itemRect.rect.center);
+                Vector2 itemScreenPosition = RectTransformUtility.WorldToScreenPoint(eventCamera, itemCenter);
+
+                float verticalDistance = Mathf.Abs(eventData.position.y - itemScreenPosition.y);
+                float horizontalDistance = Mathf.Abs(eventData.position.x - itemScreenPosition.x);
+
+                if (verticalDistance > nearestVerticalDistance && !Mathf.Approximately(verticalDistance, nearestVerticalDistance)) continue;
+
+                if (Mathf.Approximately(verticalDistance, nearestVerticalDistance) && horizontalDistance >= nearestHorizontalDistance) continue;
+
+                nearestVerticalDistance = verticalDistance;
+                nearestHorizontalDistance = horizontalDistance;
+                nearestItem = item;
             }
 
-            return null;
+            return nearestItem;
         }
 
         private void DestroyDragVisual()

@@ -27,7 +27,7 @@ namespace Alien.UI
         {
             itemUIReference.gameObject.SetActive(false);
             SetupItemsUI();
-            SelectItem(currentItemsUI.Count > 0 ? currentItemsUI[0] : null);
+            SelectItem(currentItemsUI.FirstOrDefault(itemUI => itemUI.InventoryEntry != null));
             InventoryManager.Instance.OnInventoryChanged += SetupItemsUI;
 
             useButton.onClick.AddListener(RequestUseSelectedItem);
@@ -87,7 +87,7 @@ namespace Alien.UI
 
         public void SelectItem(InventoryItemUI inventoryItemUI = null)
         {
-            if (inventoryItemUI == null)
+            if (inventoryItemUI == null || inventoryItemUI.InventoryEntry == null)
             {
                 SetupInfoContainer();
                 if (selectedUIItem) selectedUIItem.SetHighlight(false);

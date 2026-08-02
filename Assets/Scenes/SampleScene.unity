@@ -507,6 +507,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2633983272bf2734eb3b68a868104a2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Alien.Inventory::Alien.Inventory.Inventory
+  slotCount: 20
   entries: []
   allItemData: []
 --- !u!4 &252114024
@@ -1367,10 +1368,10 @@ RectTransform:
   - {fileID: 875826174}
   m_Father: {fileID: 1781326784}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 75, y: -75}
+  m_SizeDelta: {x: 110, y: 110}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &622769351
 MonoBehaviour:
@@ -1752,7 +1753,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &818278241
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2093,10 +2094,10 @@ RectTransform:
   - {fileID: 138793544}
   m_Father: {fileID: 70485017}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 412, y: -38}
+  m_SizeDelta: {x: 824, y: 76}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &983881291
 MonoBehaviour:
@@ -3568,7 +3569,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0.00012207031}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: -520.9}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1781326785
 MonoBehaviour:
