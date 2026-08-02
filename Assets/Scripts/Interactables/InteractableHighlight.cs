@@ -3,8 +3,7 @@ using UnityEngine;
 namespace Alien.Interactables
 {
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(PickupItem))]
-    public class PickupItemHighlight : MonoBehaviour
+    public class InteractableHighlight : MonoBehaviour, ITargetable
     {
         private static readonly int BaseColorProperty = Shader.PropertyToID("_BaseColor");
         private static readonly int ColorProperty = Shader.PropertyToID("_Color");
@@ -15,18 +14,16 @@ namespace Alien.Interactables
         [SerializeField, Range(0f, 1f)] private float tintMix = 0.5f;
         [SerializeField, Min(0f)] private float emissionIntensity = 2f;
 
-        private PickupItem pickupItem;
         private Renderer[] visualRenderers;
         private Material[][] originalMaterials;
         private Material[][] highlightedMaterials;
+        private bool isTargeted;
 
         private void Awake()
         {
-            pickupItem = GetComponent<PickupItem>();
-
             if (visualsRoot == null)
             {
-                Debug.LogError("PickupItemHighlight needs a visuals root.", this);
+                Debug.LogError("InteractableHighlight needs a visuals root.", this);
                 return;
             }
 
@@ -39,19 +36,25 @@ namespace Alien.Interactables
 
         private void OnEnable()
         {
-            pickupItem.TargetedChanged += SetHighlighted;
-            SetHighlighted(pickupItem.IsTargeted);
+            SetHighlighted(isTargeted);
         }
 
         private void OnDisable()
         {
-            pickupItem.TargetedChanged -= SetHighlighted;
             SetHighlighted(false);
         }
 
         private void OnDestroy()
         {
             DestroyHighlightedMaterials();
+        }
+
+        public void SetTargeted(bool targeted)
+        {
+            isTargeted = targeted;
+
+            if (isActiveAndEnabled)
+                SetHighlighted(isTargeted);
         }
 
         private void SetHighlighted(bool isHighlighted)

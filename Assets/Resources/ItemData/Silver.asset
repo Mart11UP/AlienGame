@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Alien.Data::Alien.Data.ItemData
   id: 2ff1eaf378c0f694a9e39e9680518edb
   displayName: Silver
-  description: It works to make amazing connections
+  description: A chunk of silver ore containing valuable metal, commonly used for
+    crafting and restoring damaged machinery.
   icon: {fileID: 1564009516294012628, guid: 208cf90648e1ee24a991dad7cb1e3306, type: 3}
   usage: 0
   maxStackSize: 5

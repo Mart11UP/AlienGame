@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Alien.Data::Alien.Data.ItemData
   id: 57b4fffb3e99fc24f996a42abd7bfcbb
   displayName: Amethyst
-  description: It works to make amazing connections
+  description: A chunk of amethyst prized for its unique crystalline properties and
+    use in advanced technology.
   icon: {fileID: -2458527721752801474, guid: 8aea66d9d502ee743bac9b617fe3e72c, type: 3}
   usage: 0
   maxStackSize: 5

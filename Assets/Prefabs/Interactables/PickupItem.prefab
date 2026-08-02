@@ -90,7 +90,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4605d6dca4ab44f5a9df6cc9845902b1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Alien.Interactables::Alien.Interactables.PickupItemHighlight
+  m_EditorClassIdentifier: Alien.Interactables::Alien.Interactables.InteractableHighlight
   visualsRoot: {fileID: 1234353558051021619}
   highlightTint: {r: 0.19999999, g: 0.73355865, b: 1, a: 1}
   tintMix: 0.3

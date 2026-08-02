@@ -1213,6 +1213,7 @@ GameObject:
   - component: {fileID: 87253616}
   - component: {fileID: 87253618}
   - component: {fileID: 87253617}
+  - component: {fileID: 87253619}
   m_Layer: 0
   m_Name: RequiredItems
   m_TagString: Untagged
@@ -1236,10 +1237,10 @@ RectTransform:
   - {fileID: 1429947582}
   m_Father: {fileID: 811253996}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 143.9, y: -66.4}
-  m_SizeDelta: {x: 287.8, y: 132.8}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 132.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &87253617
 MonoBehaviour:
@@ -1279,6 +1280,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 87253615}
   m_CullTransparentMesh: 1
+--- !u!114 &87253619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87253615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e032e118cc7c42f099f2260da505678b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Alien.UI::Alien.UI.ItemRequirementUI
+  icon: {fileID: 1116047987}
+  amountText: {fileID: 1429947583}
 --- !u!1001 &135287601
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4073,6 +4088,100 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4137486168269956, guid: da41fd2967a439d409358c2214a5409e, type: 3}
   m_PrefabInstance: {fileID: 524073802}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &539769533
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 539769537}
+  - component: {fileID: 539769536}
+  - component: {fileID: 539769535}
+  - component: {fileID: 539769534}
+  m_Layer: 0
+  m_Name: Rocketship
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!136 &539769534
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 539769533}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2.06
+  m_Height: 9.47
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: -0.2}
+--- !u!114 &539769535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 539769533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4605d6dca4ab44f5a9df6cc9845902b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Alien.Interactables::Alien.Interactables.InteractableHighlight
+  visualsRoot: {fileID: 1941370392}
+  highlightTint: {r: 0.19999999, g: 0.73355865, b: 1, a: 1}
+  tintMix: 1
+  emissionIntensity: 1
+--- !u!114 &539769536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 539769533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bed09fed10104398990ce4d905ff6b0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Alien.Interactables::Alien.Interactables.InventoryRequirementInteractable
+  requirements:
+  - itemData: {fileID: 11400000, guid: 2ff1eaf378c0f694a9e39e9680518edb, type: 2}
+    quantity: 10
+  - itemData: {fileID: 11400000, guid: 57b4fffb3e99fc24f996a42abd7bfcbb, type: 2}
+    quantity: 5
+  onInteracted:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!4 &539769537
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 539769533}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.09, y: 5.42, z: 1.76}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1941370392}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &551342148
 GameObject:
   m_ObjectHideFlags: 0
@@ -5968,7 +6077,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &811253996
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5987,7 +6096,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 287.8, y: 132.8}
+  m_SizeDelta: {x: 312.91, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &811253997
 MonoBehaviour:
@@ -10963,7 +11072,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1429947581}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10971,8 +11080,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -167.3, y: 0}
-  m_SizeDelta: {x: 92.999985, y: 50}
+  m_AnchoredPosition: {x: -188.5, y: 0}
+  m_SizeDelta: {x: 120, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1429947583
 MonoBehaviour:
@@ -11021,8 +11130,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 53.2
-  m_fontSizeBase: 53.2
+  m_fontSize: 42
+  m_fontSizeBase: 42
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -15955,19 +16064,27 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 539769537}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: e163f2fff5476c04182d1e444404ff41, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.46688506
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e163f2fff5476c04182d1e444404ff41, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.46688497
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e163f2fff5476c04182d1e444404ff41, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.09
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e163f2fff5476c04182d1e444404ff41, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.42
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e163f2fff5476c04182d1e444404ff41, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.76
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e163f2fff5476c04182d1e444404ff41, type: 3}
       propertyPath: m_LocalRotation.w
@@ -16099,6 +16216,7 @@ GameObject:
   - component: {fileID: 1980668903}
   - component: {fileID: 1980668907}
   - component: {fileID: 1980668908}
+  - component: {fileID: 1980668909}
   - component: {fileID: 1980668906}
   - component: {fileID: 1980668905}
   - component: {fileID: 1980668904}
@@ -16219,7 +16337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Alien.Generic::Alien.Generic.TaggedObjectRangeEvents
   trackedTag: Player
-  minimumDistance: 3
+  minimumDistance: 4
   maximumDistance: 12
   onEnteredRange:
     m_PersistentCalls:
@@ -16251,6 +16369,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1980668909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1980668902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8960fa3be02d4813a88ab836b23a2241, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Alien.UI::Alien.UI.ItemRequirementsUI
+  requirementsSource: {fileID: 539769536}
+  container: {fileID: 811253996}
+  itemReference: {fileID: 87253619}
 --- !u!1 &1994426852
 GameObject:
   m_ObjectHideFlags: 0
@@ -17364,7 +17497,7 @@ SceneRoots:
   - {fileID: 1147264781}
   - {fileID: 1289638216}
   - {fileID: 897421501}
-  - {fileID: 1941370387}
+  - {fileID: 539769537}
   - {fileID: 487119044}
   - {fileID: 1934249826}
   - {fileID: 1033660238}

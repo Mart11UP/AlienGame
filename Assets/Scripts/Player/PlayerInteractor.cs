@@ -17,6 +17,7 @@ namespace Alien.Player
         InputAction interactAction;
         IInteractable currentInteractable;
         Component currentInteractableComponent;
+        ITargetable currentTargetable;
 
         void Awake()
         {
@@ -65,14 +66,15 @@ namespace Alien.Player
         {
             if (currentInteractableComponent == interactableComponent) return;
 
-            if (currentInteractableComponent != null && currentInteractable is PickupItem previousPickup)
-                previousPickup.SetTargeted(false);
+            currentTargetable?.SetTargeted(false);
 
             currentInteractable = interactable;
             currentInteractableComponent = interactableComponent;
+            currentTargetable = currentInteractableComponent != null
+                ? currentInteractableComponent.GetComponent<ITargetable>()
+                : null;
 
-            if (currentInteractable is PickupItem nextPickup)
-                nextPickup.SetTargeted(true);
+            currentTargetable?.SetTargeted(true);
         }
 
         private bool TryGetNearestInteractableObject(out IInteractable interactable, out Component interactableComponent)
