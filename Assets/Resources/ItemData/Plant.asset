@@ -10,15 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9eff3d95208d8c045b64615d39f3b981, type: 3}
-  m_Name: Gold
+  m_Name: Plant
   m_EditorClassIdentifier: Alien.Data::Alien.Data.ItemData
-  id: 2ff1eaf378c0f694a9e39e9680518edb
-  displayName: Gold
-  description: It works to make amazing connections
-  icon: {fileID: -2416228288274656404, guid: 5c5a33eafa2db004b85725a407684ab6, type: 3}
-  usage: 0
+  id: eccb3d7bdb3e527478ae858e20b1461c
+  displayName: Flower
+  description: Restores 10 health
+  icon: {fileID: -2158817008033182811, guid: 51e8f439c103741479e6e6194c5a681f, type: 3}
+  usage: 1
   maxStackSize: 5
-  consumableEffects: []
+  consumableEffects:
+  - effect:
+      rid: 9010459355617165406
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 9010459355617165406
+      type: {class: HealEffect, ns: Alien.Gameplay, asm: Alien.Gameplay}
+      data:
+        amount: 10

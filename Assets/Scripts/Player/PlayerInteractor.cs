@@ -15,6 +15,8 @@ namespace Alien.Player
         [Header("Input Actions")]
         [SerializeField] string interactActionName = "Interact";
         InputAction interactAction;
+        IInteractable currentInteractable;
+        Component currentInteractableComponent;
 
         void Awake()
         {
@@ -25,34 +27,70 @@ namespace Alien.Player
         private void OnEnable()
         {
             interactAction.performed += OnInteractPerformed;
+            RefreshTarget();
         }
 
         private void OnDisable()
         {
             interactAction.performed -= OnInteractPerformed;
+            SetTarget(null, null);
+        }
+
+        private void Update()
+        {
+            RefreshTarget();
         }
 
         void OnInteractPerformed(InputAction.CallbackContext context)
         {
-            if(!TryGetNearestInteractableObject(out IInteractable interactable)) return;
+            if (currentInteractableComponent == null || !currentInteractableComponent.gameObject.activeInHierarchy)
+            {
+                SetTarget(null, null);
+                return;
+            }
 
-            interactable.Interact();
+            currentInteractable.Interact();
+
+            if (currentInteractableComponent == null || !currentInteractableComponent.gameObject.activeInHierarchy)
+                SetTarget(null, null);
         }
 
-        private bool TryGetNearestInteractableObject(out IInteractable interactable)
+        private void RefreshTarget()
+        {
+            TryGetNearestInteractableObject(out IInteractable interactable, out Component interactableComponent);
+            SetTarget(interactable, interactableComponent);
+        }
+
+        private void SetTarget(IInteractable interactable, Component interactableComponent)
+        {
+            if (currentInteractableComponent == interactableComponent) return;
+
+            if (currentInteractableComponent != null && currentInteractable is PickupItem previousPickup)
+                previousPickup.SetTargeted(false);
+
+            currentInteractable = interactable;
+            currentInteractableComponent = interactableComponent;
+
+            if (currentInteractable is PickupItem nextPickup)
+                nextPickup.SetTargeted(true);
+        }
+
+        private bool TryGetNearestInteractableObject(out IInteractable interactable, out Component interactableComponent)
         {
             Vector3 worldOrigin = transform.TransformPoint(interactionOrigin);
 
-            Collider[] hits = Physics.OverlapSphere(worldOrigin, interactionRadius, interactionMask, QueryTriggerInteraction.Ignore);
+            Collider[] hits = Physics.OverlapSphere(worldOrigin, interactionRadius, interactionMask);
 
             interactable = null;
+            interactableComponent = null;
             float closestSqrDistance = float.MaxValue;
 
             foreach (Collider hit in hits)
             {
                 IInteractable candidate = hit.GetComponentInParent<IInteractable>();
+                Component candidateComponent = candidate as Component;
 
-                if (candidate == null) continue;
+                if (candidateComponent == null) continue;
 
                 float sqrDistance = (hit.ClosestPoint(worldOrigin) - worldOrigin).sqrMagnitude;
 
@@ -60,10 +98,11 @@ namespace Alien.Player
                 {
                     closestSqrDistance = sqrDistance;
                     interactable = candidate;
+                    interactableComponent = candidateComponent;
                 }
             }
 
-            return interactable != null;
+            return interactableComponent != null;
         }
 
         private void OnDrawGizmosSelected()
