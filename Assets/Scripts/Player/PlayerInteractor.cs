@@ -19,6 +19,8 @@ namespace Alien.Player
         Component currentInteractableComponent;
         ITargetable currentTargetable;
 
+        public event System.Action Interacted;
+
         void Awake()
         {
             playerInput = GetComponent<PlayerInput>();
@@ -51,6 +53,7 @@ namespace Alien.Player
             }
 
             currentInteractable.Interact();
+            Interacted?.Invoke();
 
             if (currentInteractableComponent == null || !currentInteractableComponent.gameObject.activeInHierarchy)
                 SetTarget(null, null);

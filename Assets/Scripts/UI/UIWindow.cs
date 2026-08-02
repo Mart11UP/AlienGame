@@ -1,5 +1,6 @@
 using Alien.Gameplay;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
@@ -14,6 +15,10 @@ namespace Alien.UI
         [SerializeField] private bool pauseWhileVisible = false;
         [SerializeField] private Button[] toggleButtons;
         [SerializeField] private InputActionReference[] toggleActions;
+
+        [Header("Events")]
+        [SerializeField] private UnityEvent onOpened = new();
+        [SerializeField] private UnityEvent onClosed = new();
 
         protected GameObject Root => root;
 
@@ -41,6 +46,7 @@ namespace Alien.UI
             if (pauseWhileVisible) GameStateManager.Instance.Pause();
             root.SetActive(true);
             OnShown();
+            onOpened.Invoke();
         }
 
         public virtual void Hide()
@@ -50,6 +56,7 @@ namespace Alien.UI
             if (pauseWhileVisible) GameStateManager.Instance.ResumeGameplay();
             root.SetActive(false);
             OnHidden();
+            onClosed.Invoke();
         }
 
         public virtual void Toggle()
